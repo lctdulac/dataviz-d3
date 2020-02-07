@@ -9,6 +9,7 @@ var svg = d3.select("body").append("svg")
 	.append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+console.log("aaa")
 
 var parseDate = d3.timeParse("%j/%m/%Y")
 var parseTime = d3.timeParse("%H:%M")
@@ -17,7 +18,7 @@ var displayDate = d3.timeFormat("%Y")
 var getYear = d3.timeFormat("%Y")
 var getMonth = d3.timeFormat("%B") 
 
-d3.csv('data2.csv', (data)=> { 
+d3.csv('/data/data2.csv', (data)=> { 
 //       console.log(data.columns)
   data.forEach(d => {
     d.Consommation = +d.Consommation
@@ -75,7 +76,7 @@ svg.append("g")
 		.style("font-family","Helvetica")
     .style("font-size", "16px") 
     .style("font-weight", 700)  
-    .text(Évolution de la consommation le 1er Décembre 2019);
+    .text("Évolution de la consommation le 1er Décembre 2019");
 })
     
     
