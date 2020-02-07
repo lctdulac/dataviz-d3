@@ -18,7 +18,7 @@ var displayDate = d3.timeFormat("%Y")
 var getYear = d3.timeFormat("%Y")
 var getMonth = d3.timeFormat("%B") 
 
-d3.csv('/dataviz-d3/data/data2.csv', (data)=> { 
+d3.csv('data/data2.csv', (data)=> { 
 //       console.log(data.columns)
   data.forEach(d => {
     d.Consommation = +d.Consommation
