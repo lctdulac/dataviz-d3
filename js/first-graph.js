@@ -3,7 +3,7 @@ var margin = {top: 50, right: 50, bottom: 50, left: 50};
 var width = 800 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#viz1>.container").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
 	.append("g")
@@ -18,7 +18,7 @@ var displayDate = d3.timeFormat("%Y")
 var getYear = d3.timeFormat("%Y")
 var getMonth = d3.timeFormat("%B") 
 
-d3.csv('data/data2.csv', (data)=> { 
+d3.csv('https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2.csv', (data)=> { 
 //       console.log(data.columns)
   data.forEach(d => {
     d.Consommation = +d.Consommation
