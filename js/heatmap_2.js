@@ -62,7 +62,8 @@ var tooltip = d3.select("body").append("div")
 
 // choose path
 
-path = "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_by_day_2014.csv";
+// path = "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_by_day_2014.csv";
+path = "/data/conso_by_day_2014.csv";
 
 d3.csv(path, (data) => {
 
