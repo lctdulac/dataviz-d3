@@ -14,7 +14,7 @@ let months = ["January",
 
 days = d3.range(1, 32),
 
-yeats = [2011, 2012, 2013, 2014]
+yeats = [2012, 2013, 2014]
 
     margin = {
         top: 90,
@@ -60,23 +60,45 @@ var tooltip = d3.select("body").append("div")
     .attr("class", "hidden tooltip")
 
 
-d3.csv("https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_by_day_2014.csv", (data) => {
+// choose path
+
+path = "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_by_day_2014.csv";
+
+d3.csv(path, (data) => {
+
     data.forEach(function(d) {
         d.cons = +d.Consommation;
         d.day = +d.Jour;
         d.month = +d.Mois;
+        d.year = +d.Année;
     });
 
+    // console.log("avant")
+    // console.log(data)
 
-    console.log(data)
+    // const chosen_year = date choisie par slider
+    // const data = data.filter(d => d.year === chosen_year)
+
+    // console.log("apres")
+    // console.log(data)
 
     maingroup.append("text")
         .attr("class", "subtitle")
         .attr("x", width / 2)
         .attr("y", -40)
         .style("text-anchor", "middle")
-        .style("font-weight", "bold")
-        .text("Total Consumption in 2014 - " + numberWithCommas(d3.sum(data, function(d) { return d.cons; })) + " MWh");
+        .style("font-weight", "bold") //  // 
+        .text("Total Consumption this year - " + numberWithCommas(d3.sum(data, function(d) { return d.cons; })) + " MWh");
+
+
+    // function getYearlyConsumption(data) {
+    //     var output = d3.rollups(
+    //                 data,
+    //                 xs => d3.sum(xs, x => x.cons),
+    //                 d => d.year)
+    //         .map(([k, v]) => ({ year: k, cons: v }))
+
+    //     return output}
 
     var colorScale = d3.scaleLinear()
         .domain([0, d3.max(data, function(d) { return d.cons; }) / 2, d3.max(data, function(d) { return d.cons; })])
@@ -97,7 +119,6 @@ d3.csv("https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_
         .on("mouseout", mouseout)
         .on("mouseover", mouseover)
 
-        update(slider.property("value");
 
 
     var consoScale = d3.scaleLinear()
@@ -151,28 +172,13 @@ d3.csv("https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_
         .attr("class", "axis")
         .attr("transform", "translate(0," + (10) + ")")
         .call(d3.axisBottom(xScale).ticks(5));
-
-    ;
 })
 
-
-slider.on("input", function() {
-            update(this.value)
-        })
-
-function update(year) {
-            g
-                .transition()
-                .duration(100)
-                .attr("fill", d => d.year)
-            d3.select("#year").html("Année " + (years[Number(slider.property("value")) + 1]))
-        }
 
 function mousemove(d) {
     var mouse = d3.mouse(this);
     tooltip
-        .attr("style", "left:" + (mouse[0] + 100) + "px; top:" + (mouse[1] + 350) + "px")
-    console.log(mouse)
+        .attr("style", "left:" + (mouse[0] + 150) + "px; top:" + (mouse[1] + 390) + "px")
 }
 
 
