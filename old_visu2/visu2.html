@@ -11,9 +11,11 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/business-frontpage.css" rel="stylesheet">
-    <link href="css/slider.css" rel="stylesheet" >
     <!-- D3 -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+
+
     <style>
         div.tooltip {
             color: #222;
@@ -72,10 +74,11 @@
             <br>
         </div>
     </div>
-    <div class="slidecontainer" style="text-align: center">
-        <p>Year: <span id="demo"></span></p>
-        <input type="range" min="2012" max="2014" value="2014" class="slider" id="myRange">
-    </div>
+
+    <p>Chosen Year:
+    <input type="range" min="2012", max="2014", step="1", value="2012" id="chosenyear"/>
+    <output id="chosenyear">2012</output>
+    </p>
 
     <div class="container" id="cont1" style="text-align: center">
         <div class="col-md-15 mb-5" id="visu2"></div>
@@ -92,5 +95,5 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Visualization JavaScript -->
-    <script src="js/heatmap2.js"></script>
+    <script src="js/heatmap_2.js"></script>
 </body>

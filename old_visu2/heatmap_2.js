@@ -14,7 +14,7 @@ let months = ["January",
 
 days = d3.range(1, 32),
 
-yeats = [2012, 2013, 2014]
+years = [2012, 2013, 2014]
 
     margin = {
         top: 90,
@@ -34,7 +34,7 @@ var maingroup = d3.select("body>#cont1>#visu2")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var monthLabels = maingroup.selectAll(".monthLabel")
     .data(months)
@@ -62,11 +62,12 @@ var tooltip = d3.select("body").append("div")
 
 // choose path
 
-path = "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_by_day_2014.csv";
+path = "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_by_day_total.csv";
 
 
 d3.csv(path, (data) => {
 
+    // Data loading
     data.forEach(function(d) {
         d.cons = +d.Consommation;
         d.day = +d.Jour;
@@ -74,39 +75,8 @@ d3.csv(path, (data) => {
         d.year = +d.Année;
     });
 
-    // console.log("avant")
-    // console.log(data)
-
-    // const chosen_year = date choisie par slider
-    // const data = data.filter(d => d.year === chosen_year)
-
-    // console.log("apres")
-    // console.log(data)
-
-    maingroup.append("text")
-        .attr("class", "subtitle")
-        .attr("x", width / 2)
-        .attr("y", -40)
-        .style("text-anchor", "middle")
-        .style("font-weight", "bold") //  // 
-        .text("Total Consumption this year - " + numberWithCommas(d3.sum(data, function(d) { return d.cons; })) + " MWh");
-
-
-    // function getYearlyConsumption(data) {
-    //     var output = d3.rollups(
-    //                 data,
-    //                 xs => d3.sum(xs, x => x.cons),
-    //                 d => d.year)
-    //         .map(([k, v]) => ({ year: k, cons: v }))
-
-    //     return output}
-
-    var colorScale = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return d.cons; }) / 2, d3.max(data, function(d) { return d.cons; })])
-        .range(["#fdf6c8", "#fdcfaa", "#bc2f19"]);
-
-
-    var heatMap = maingroup.selectAll(".day")
+    // Create the grid
+    heatMap = maingroup.selectAll(".day") // var
         .data(data)
         .enter().append("rect")
         .attr("x", function(d) { return d.day * gridSize; })
@@ -114,17 +84,53 @@ d3.csv(path, (data) => {
         .attr("width", gridSize)
         .attr("height", gridSize)
         .style("stroke", "white")
-        .style("stroke-opacity", 0.6)
-        .style("fill", function(d) { return colorScale(d.cons); })
+        .style("stroke-opacity", 0.6) // fill va après
         .on("mousemove", mousemove)
         .on("mouseout", mouseout)
         .on("mouseover", mouseover)
 
 
+    // Create the scales
+    createScales(data);
 
-    var consoScale = d3.scaleLinear()
+    // Init
+    var chosenyear = 2012;
+
+    maingroup.append("text")
+                .attr("class", "subtitle")
+                .attr("x", width / 2)
+                .attr("y", -40)
+                .style("text-anchor", "middle")
+                .style("font-weight", "bold") // .text("Total Consumption in " + chosenyear + " - " + numberWithCommas(d3.sum(data, function(d) { return d.cons; })) + " MWh");
+
+    update(chosenyear, data);
+
+
+    // Slider update : filter the data
+    d3.select("input[type=range]#chosenyear").on("input", function() {
+        console.log("aaa")
+        chosenyear = this.value;
+        d3.select("output#chosenyear").text(chosenyear);
+
+        // Update the data
+        update(chosenyear, data);
+
+    });
+
+})
+
+
+
+function createScales(data) {
+
+
+    consoScale = d3.scaleLinear()
         .domain([0, d3.max(data, function(d) { return d.cons; })])
         .range([0, width])
+
+    colorScale = d3.scaleLinear()
+                .domain([0, d3.max(data, function(d) { return d.cons; }) / 2, d3.max(data, function(d) { return d.cons; })])
+                .range(["#fdf6c8", "#fdcfaa", "#bc2f19"]);
 
     numStops = 3;
     consoPoint = [0, d3.max(data, function(d) { return d.cons; }) / 2, d3.max(data, function(d) { return d.cons; })];
@@ -144,9 +150,9 @@ d3.csv(path, (data) => {
             return colorScale(consoPoint[i]);
         });
 
-    var legendWidth = Math.min(width * 0.8, 400);
+    legendWidth = Math.min(width * 0.8, 400);
 
-    var legendsvg = maingroup.append("g") // groupe principal
+    legendsvg = maingroup.append("g") // groupe principal
         .attr("class", "legendWrapper")
         .attr("transform", "translate(" + (width / 2) + "," + (gridSize * months.length + 80) + ")");
 
@@ -165,7 +171,7 @@ d3.csv(path, (data) => {
         .style("text-anchor", "middle")
         .text("Daily consumption (MWh)");
 
-    var xScale = d3.scaleLinear() // scale pour x-axis
+    xScale = d3.scaleLinear() // scale pour x-axis
         .range([-legendWidth / 2, legendWidth / 2])
         .domain([0, d3.max(data, function(d) { return d.cons; })]);
 
@@ -173,8 +179,30 @@ d3.csv(path, (data) => {
         .attr("class", "axis")
         .attr("transform", "translate(0," + (10) + ")")
         .call(d3.axisBottom(xScale).ticks(5));
-})
+            // d3.select("#year").html("Année " + (years[Number(slider.property("value")) + 1]))
+}
 
+
+
+function update(chosenyear, data) {
+
+            console.log(chosenyear)
+            console.log(data)
+            data = data.filter(function(d){return d.year == chosenyear;})
+            console.log(data)
+
+            heatMap.data(data);
+
+            heatMap.select(".day.rect")
+                .transition()
+                .duration(800)
+                .attr("fill", d => colorScale(d.cons));
+
+            maingroup.select("text.subtitle")
+                .transition()
+                .text("Total Consumption in " + chosenyear + " - " + numberWithCommas(d3.sum(data, function(d) { return d.cons; })) + " MWh");
+
+                }
 
 function mousemove(d) {
     var mouse = d3.mouse(this);
