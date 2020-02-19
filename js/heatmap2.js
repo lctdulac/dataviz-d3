@@ -72,21 +72,21 @@ var output = document.getElementById("demo");
 //// INITIALISATION
 
 output.innerHTML = slider.value; // Display the default slider value
-initialize_graph_and_scales(slider.value) 
+initialize_graph_and_scales(slider.value)
 
 
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
     output.innerHTML = this.value;
     d3.selectAll("text.subtitle").transition().duration(10).remove();
-    d3.selectAll("rect.colored").transition().duration(10).remove(); 
+    d3.selectAll("rect.colored").transition().duration(10).remove();
     // d3.selectAll("g.legendWrapper").transition().duration(100).remove(); // keep the same scale
     updateGrid(this.value);
 }
 
 
 
-function initialize_graph_and_scales(chosen_year){
+function initialize_graph_and_scales(chosen_year) {
 
     d3.csv(path, (data) => {
 
@@ -102,8 +102,8 @@ function initialize_graph_and_scales(chosen_year){
 
         // filter data
         console.log("Année choisie: " + chosen_year)
-        
-        data = data.filter(function(d){return d.year == chosen_year;})
+
+        data = data.filter(function(d) { return d.year == chosen_year; })
 
         console.log("apres")
         console.log(data)
@@ -194,7 +194,7 @@ function initialize_graph_and_scales(chosen_year){
 }
 
 
-function updateGrid(chosen_year){
+function updateGrid(chosen_year) {
 
     d3.csv(path, (data) => {
 
@@ -210,8 +210,8 @@ function updateGrid(chosen_year){
 
         // filter data
         console.log("Année choisie: " + chosen_year)
-        
-        data = data.filter(function(d){return d.year == chosen_year;})
+
+        data = data.filter(function(d) { return d.year == chosen_year; })
 
         console.log("apres")
         console.log(data)
@@ -245,16 +245,10 @@ function updateGrid(chosen_year){
 }
 
 
-
-
-
-
-
-
 function mousemove(d) {
     var mouse = d3.mouse(this);
     tooltip
-        .attr("style", "left:" + (mouse[0] + 150) + "px; top:" + (mouse[1] + 390) + "px")
+        .attr("style", "left:" + (mouse[0] + 150) + "px; top:" + (mouse[1] + 650) + "px")
 }
 
 
