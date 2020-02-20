@@ -66,25 +66,37 @@
     </nav>
 
     <!-- First row -->
-
     <div class="container">
-      <div class="col-md-8 mb-5">
-        <br />
-        <br />
-        <h2>About this website</h2>
-        <hr />
-        <p>todo: Expliquer les différentes visualisation.</p>
-        <p>todo: Et le but de l'étude.</p>
+      <div class="col-md-15 mb-5">
+          <br>
+          <br>
+          <h2>France main sources of energy production</h2>
+          <hr>
+          <br>
+          <br>
+          <h5>This visualisation shows the evolution of energy production during year 2014</h5>
+          <br>
+          <li>The data comes from <a href="https://www.data.gouv.fr/fr/datasets/electricite-consommation-production-co2-et-echanges/">data.gouv.fr</a>, the French government open-data platform. 
+          <li> The data is recorded by RTE, the distribution department of the national electricity company EDF.
+          <li> The data is recorded every 30 minutes, but the yearly data are limited to 2012, 2013 and 2014.
+          <br>
+          <br>
+          <br>
+          <p> <b> WIP :</b> Change colors
+          <p> <b> WIP :</b> Try to add animation
+          <br>
+          <br>
       </div>
+  
 
       <!-- Radio button: nuclear selection -->
-      <h6>Inclure le nucléaire ?</h6>
+      <h6>Do you want to include Nuclear Energy ?</h6>
       <form id="form" class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-secondary active">
-          <input type="radio" id="b1" name="graphType" value="yes" checked />Oui<br />
+          <input type="radio" id="b1" name="graphType" value="yes" checked />Yes<br />
         </label>
         <label class="btn btn-secondary">
-          <input type="radio" name="graphType" value="no" />Non<br />
+          <input type="radio" name="graphType" value="no" />No<br />
         </label>
       </form>
     </div>
@@ -94,6 +106,7 @@
     <div class="container" id="cont1" style="text-align: center">
       <div class="col-md-15 mb-5" id="visu3"></div>
     </div>
+  </div>
 
     <!-- Footer -->
     <footer class="py-5 bg-dark">
