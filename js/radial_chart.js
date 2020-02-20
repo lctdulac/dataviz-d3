@@ -3,6 +3,9 @@
 path =
   "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014.csv";
 
+  var tooltip = d3.select("body").append("div")
+  .attr("class", "hidden tooltip")
+
 draw_graph(path);
 
 $('input[type="radio"]').on("click change", function() {
@@ -21,7 +24,7 @@ function draw_graph(path) {
   d3.select("svg").remove();
   const margin = { top: 50, right: 50, bottom: 50, left: 50 },
   width =
-    Math.max(Math.min(window.innerWidth, 1000), 500) -
+    Math.max(Math.min(window.innerWidth, 800), 500) -
     margin.left -
     margin.right,
   height =
@@ -36,12 +39,6 @@ const dateFormat = d3.timeFormat("%d/%m/%Y");
 const displayDate = d3.timeFormat("%b");
 const outerRadius = Math.min(width, height) / 2.2;
 const innerRadius = 150;
-
-
-var tooltip = d3
-  .select("body")
-  .append("div")
-  .attr("class", "hidden tooltip");
 
 var svg = d3
   .select("body>#cont1>#visu3")
@@ -125,19 +122,9 @@ var svg = d3
       .enter()
       .append("path")
       .attr("d", arc)
-      .on('mousemove', function(d) {
-        console.log(d.data.Fioul)
-                  var mouse = d3.mouse(svg.node()).map(function(d) {
-                      return parseInt(d);
-                  });
-                  tooltip.classed('hidden', false)
-                      .attr('style', 'left:' + (mouse[0] + 15) +
-                              'px; top:' + (mouse[1] - 35) + 'px')
-                      .html(`${d.data.Fioul} : ${d.data.Fioul}`);
-              })
-              .on('mouseout', function() {
-                  tooltip.classed('hidden', true);
-              });
+      .on("mousemove", mousemove)
+      .on("mouseout", mouseout)
+      .on("mouseover", mouseover)
 
     //Légende
 
@@ -245,4 +232,32 @@ var svg = d3
           )
       );
   });
+}
+
+function mousemove(d) {
+  var mouse = d3.mouse(this);
+  tooltip
+      .attr("style", "left:" + (mouse[0] + 500) + "px; top:" + (mouse[1] + 1000) + "px")
+}
+
+
+function mouseout(d) {
+  tooltip.classed("hidden", true)
+  d3.select(this)
+      .transition()
+      .duration(500)
+      .style("opacity", 1)
+}
+
+function mouseover(d) {
+     console.log(d)
+      var s = d3.select(this);
+      s
+          .transition()
+          .duration(100)
+          .style("opacity", 0.5)
+      tooltip
+          .classed("hidden", false)
+          .html("Fioul : " + d.data.Fioul + "<br>"
+          + "Charbon : " + d.data.Charbon + "<br>")
 }
