@@ -68,22 +68,53 @@ path = "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/conso_
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 
+// Initialization
 
-//// INITIALISATION
+switchPower();
 
-output.innerHTML = slider.value; // Display the default slider value
-initialize_graph_and_scales(slider.value, CO2=false)
+// TODO
+
+// buttons
+
+function switchPower() {
+
+    bool = false
+
+    output.innerHTML = slider.value; // Display the default slider value
+    d3.selectAll("g.legendWrapper").transition().duration(100).remove();
+    d3.selectAll("text.subtitle").transition().duration(10).remove();
+    d3.selectAll("rect.colored").transition().duration(10).remove();
+
+    initialize_graph_and_scales(2014, CO2=false)
+    updateGrid(slider.value, CO2=false)
+
+}
+
+function switchCO2() {
+
+    bool = true
+
+    output.innerHTML = slider.value; // Display the default slider value
+    d3.selectAll("g.legendWrapper").transition().duration(100).remove();
+    d3.selectAll("text.subtitle").transition().duration(10).remove();
+    d3.selectAll("rect.colored").transition().duration(10).remove();
+
+    initialize_graph_and_scales(2014, CO2=true)
+    updateGrid(slider.value, CO2=true)
+
+}
 
 
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
+
+    console.log("slider input")
     output.innerHTML = this.value;
     d3.selectAll("text.subtitle").transition().duration(10).remove();
     d3.selectAll("rect.colored").transition().duration(10).remove();
     // d3.selectAll("g.legendWrapper").transition().duration(100).remove(); // keep the same scale
-    updateGrid(this.value, CO2=false);
+    updateGrid(this.value, CO2=bool);
 }
-
 
 
 function initialize_graph_and_scales(chosen_year, C02) {
@@ -91,7 +122,8 @@ function initialize_graph_and_scales(chosen_year, C02) {
     d3.csv(path, (data) => {
 
         data.forEach(function(d) {
-            if (CO2) {d.cons = +d.Consommation} else {d.cons = +d.CO2};
+            if (CO2) {d.cons = +d.CO2} else {d.cons = +d.Consommation};
+            d.CO2 = +d.CO2
             d.day = +d.Jour;
             d.month = +d.Mois;
             d.year = +d.Année;
@@ -107,14 +139,25 @@ function initialize_graph_and_scales(chosen_year, C02) {
 
         console.log("apres")
         console.log(data)
-
-        maingroup.append("text")
-            .attr("class", "subtitle")
-            .attr("x", width / 2)
-            .attr("y", -40)
-            .style("text-anchor", "middle")
-            .style("font-weight", "bold") //  // 
-            .text("This year total - " + numberWithCommas(d3.sum(data, function(d) { return d.cons } )) + " MWh");
+            
+        // if(CO2){
+        //         maingroup.append("text")
+        //             .attr("class", "subtitle")
+        //             .attr("x", width / 2)
+        //             .attr("y", -40)
+        //             .style("text-anchor", "middle")
+        //             .style("font-weight", "bold")
+        //             .text("This year total - " + numberWithCommas(d3.sum(data, function(d) { return d.cons } )) + " (unité?)");
+        //     }
+        //     else {
+        //         maingroup.append("text")
+        //             .attr("class", "subtitle")
+        //             .attr("x", width / 2)
+        //             .attr("y", -40)
+        //             .style("text-anchor", "middle")
+        //             .style("font-weight", "bold")
+        //             .text("This year total - " + numberWithCommas(d3.sum(data, function(d) { return d.cons } )) + " MWh");
+        //     };
 
         colorScale = d3.scaleLinear() // !
             .domain([0, d3.max(data, function(d) { return d.cons; }) / 2, d3.max(data, function(d) { return d.cons; })])
@@ -122,45 +165,84 @@ function initialize_graph_and_scales(chosen_year, C02) {
 
         colorScaleCO2 = d3.scaleLinear() // !
             .domain([0, d3.max(data, function(d) { return d.CO2; }) / 2, d3.max(data, function(d) { return d.CO2; })])
-            .range(["#96FF9B", "#45BB4A", "#117415"]);
+            .range(["#a4e109", "#7cb704", "#4a750f"]);
 
-        var heatMap = maingroup.selectAll(".day")
-            .data(data)
-            .enter().append("rect").attr("class", "colored")
-            .attr("x", function(d) { return d.day * gridSize; })
-            .attr("y", function(d) { return d.month * gridSize; })
-            .attr("width", gridSize)
-            .attr("height", gridSize)
-            .style("stroke", "white")
-            .style("stroke-opacity", 0.6)
-            .style("fill", function(d) { return colorScale(d.cons); })
-            .on("mousemove", mousemove)
-            .on("mouseout", mouseout)
-            .on("mouseover", mouseover)
 
+
+        if(CO2){
+            heatMap = maingroup.selectAll(".day")
+                .data(data)
+                .enter().append("rect").attr("class", "colored")
+                .attr("x", function(d) { return d.day * gridSize; })
+                .attr("y", function(d) { return d.month * gridSize; })
+                .attr("width", gridSize)
+                .attr("height", gridSize)
+                .style("stroke", "white")
+                .style("stroke-opacity", 0.6)
+                .style("fill", function(d) { return colorScaleCO2(d.cons); })
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseout)
+                .on("mouseover", mouseover)
+        } else {
+            heatMap = maingroup.selectAll(".day")
+                .data(data)
+                .enter().append("rect").attr("class", "colored")
+                .attr("x", function(d) { return d.day * gridSize; })
+                .attr("y", function(d) { return d.month * gridSize; })
+                .attr("width", gridSize)
+                .attr("height", gridSize)
+                .style("stroke", "white")
+                .style("stroke-opacity", 0.6)
+                .style("fill", function(d) { return colorScale(d.cons); })
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseout)
+                .on("mouseover", mouseover)
+        }
 
 
         consoScale = d3.scaleLinear() // !
             .domain([0, d3.max(data, function(d) { return d.cons; })])
             .range([0, width])
 
+        consoScaleCO2 = d3.scaleLinear() // !
+            .domain([0, d3.max(data, function(d) { return d.CO2; })])
+            .range([0, width])
+
         numStops = 3;
         consoPoint = [0, d3.max(data, function(d) { return d.cons; }) / 2, d3.max(data, function(d) { return d.cons; })];
 
-        maingroup.append("defs")
-            .append("linearGradient")
-            .attr("id", "legend-traffic")
-            .attr("x1", "0%").attr("y1", "0%")
-            .attr("x2", "100%").attr("y2", "0%")
-            .selectAll("stop")
-            .data(d3.range(numStops))
-            .enter().append("stop")
-            .attr("offset", function(d, i) {
-                return consoScale(consoPoint[i]) / width;
-            })
-            .attr("stop-color", function(d, i) {
-                return colorScale(consoPoint[i]);
-            });
+        if(CO2){
+            maingroup.append("defs")
+                .append("linearGradient")
+                .attr("id", "legend-traffic-co2")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%")
+                .selectAll("stop")
+                .data(d3.range(numStops))
+                .enter().append("stop")
+                .attr("offset", function(d, i) {
+                    return consoScaleCO2(consoPoint[i]) / width;
+                })
+                .attr("stop-color", function(d, i) {
+                    return colorScaleCO2(consoPoint[i]);
+                });
+        } 
+            else {
+            maingroup.append("defs")
+                .append("linearGradient")
+                .attr("id", "legend-traffic")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%")
+                .selectAll("stop")
+                .data(d3.range(numStops))
+                .enter().append("stop")
+                .attr("offset", function(d, i) {
+                    return consoScale(consoPoint[i]) / width;
+                })
+                .attr("stop-color", function(d, i) {
+                    return colorScale(consoPoint[i]);
+                });
+        }
 
         var legendWidth = Math.min(width * 0.8, 400);
 
@@ -168,7 +250,28 @@ function initialize_graph_and_scales(chosen_year, C02) {
             .attr("class", "legendWrapper")
             .attr("transform", "translate(" + (width / 2) + "," + (gridSize * months.length + 80) + ")");
 
-        legendsvg.append("rect") // rectangle avec gradient
+        
+
+        if(CO2){
+
+            legendsvg.append("rect") // rectangle avec gradient
+            .attr("class", "legendRect")
+            .attr("x", -legendWidth / 2)
+            .attr("y", 0)
+            .attr("width", legendWidth)
+            .attr("height", 10)
+            .style("fill", "url(#legend-traffic-co2)");
+
+
+            legendsvg.append("text") // légende
+                .attr("class", "legendTitle")
+                .attr("x", 0)
+                .attr("y", 50)
+                .style("text-anchor", "middle")
+                .text("Daily emissions (unité?)");
+        } else {
+
+            legendsvg.append("rect") // rectangle avec gradient
             .attr("class", "legendRect")
             .attr("x", -legendWidth / 2)
             .attr("y", 0)
@@ -176,16 +279,24 @@ function initialize_graph_and_scales(chosen_year, C02) {
             .attr("height", 10)
             .style("fill", "url(#legend-traffic)");
 
-        legendsvg.append("text") // légende
-            .attr("class", "legendTitle")
-            .attr("x", 0)
-            .attr("y", 50)
-            .style("text-anchor", "middle")
-            .text("Daily consumption (MWh)");
 
-        var xScale = d3.scaleLinear() // scale pour x-axis
-            .range([-legendWidth / 2, legendWidth / 2])
-            .domain([0, d3.max(data, function(d) { return d.cons; })]);
+            legendsvg.append("text") // légende
+                .attr("class", "legendTitle")
+                .attr("x", 0)
+                .attr("y", 50)
+                .style("text-anchor", "middle")
+                .text("Daily consumption (MWh)");
+        }
+
+        if(CO2){
+            var xScale = d3.scaleLinear() // scale pour x-axis
+                .range([-legendWidth / 2, legendWidth / 2])
+                .domain([0, d3.max(data, function(d) { return d.CO2; })]);
+            } else {
+                var xScale = d3.scaleLinear() // scale pour x-axis
+                .range([-legendWidth / 2, legendWidth / 2])
+                .domain([0, d3.max(data, function(d) { return d.cons; })]);
+            }
 
         legendsvg.append("g") // x axis
             .attr("class", "axis")
@@ -201,7 +312,7 @@ function updateGrid(chosen_year, CO2) {
     d3.csv(path, (data) => {
 
         data.forEach(function(d) {
-            if (CO2) {d.cons = +d.Consommation} else {d.cons = +d.CO2};
+            if (CO2) {d.cons = +d.CO2} else {d.cons = +d.Consommation};
             d.day = +d.Jour;
             d.month = +d.Mois;
             d.year = +d.Année;
@@ -218,13 +329,24 @@ function updateGrid(chosen_year, CO2) {
         console.log("apres")
         console.log(data)
 
-        maingroup.append("text")
-            .attr("class", "subtitle")
-            .attr("x", width / 2)
-            .attr("y", -40)
-            .style("text-anchor", "middle")
-            .style("font-weight", "bold") //  // 
-            .text("Total Consumption this year - " + numberWithCommas(d3.sum(data, function(d) { return d.cons; })) + " MWh");
+        if(CO2){
+                maingroup.append("text")
+                    .attr("class", "subtitle")
+                    .attr("x", width / 2)
+                    .attr("y", -40)
+                    .style("text-anchor", "middle")
+                    .style("font-weight", "bold")
+                    .text("This year total - " + numberWithCommas(d3.sum(data, function(d) { return d.cons } )) + " (unité?)");
+            }
+            else {
+                maingroup.append("text")
+                    .attr("class", "subtitle")
+                    .attr("x", width / 2)
+                    .attr("y", -40)
+                    .style("text-anchor", "middle")
+                    .style("font-weight", "bold")
+                    .text("This year total - " + numberWithCommas(d3.sum(data, function(d) { return d.cons } )) + " MWh");
+            };
 
 
         var heatMap = maingroup.selectAll(".day")
@@ -246,18 +368,11 @@ function updateGrid(chosen_year, CO2) {
 
 }
 
-function switchCO2() {
-    d3.selectAll("text.subtitle").transition().duration(10).remove();
-    d3.selectAll("rect.colored").transition().duration(10).remove();
-    // d3.selectAll("g.legendWrapper").transition().duration(100).remove(); // keep the same scale
-    updateGrid(chosen_year, CO2=true);
-}
-
 
 function mousemove(d) {
     var mouse = d3.mouse(this);
     tooltip
-        .attr("style", "left:" + (mouse[0] + 150) + "px; top:" + (mouse[1] + 650) + "px")
+        .attr("style", "left:" + (mouse[0] + 150) + "px; top:" + (mouse[1] + 750) + "px")
 }
 
 
@@ -270,15 +385,29 @@ function mouseout(d) {
 }
 
 function mouseover(d) {
-    var s = d3.select(this);
-    s
-        .transition()
-        .duration(100)
-        .style("opacity", 0.5)
-    tooltip
-        .classed("hidden", false)
-        .html(d.day + "/" + d.month + " - <b>" + numberWithCommas(d.cons) + " MWh </b>")
+
+    if(CO2){
+        var s = d3.select(this);
+        s
+            .transition()
+            .duration(100)
+            .style("opacity", 0.5)
+        tooltip
+            .classed("hidden", false)
+            .html(d.day + "/" + d.month + "/" + d.year + " - <b>" + numberWithCommas(d.cons) + " (unité?) </b>")
+    } else {
+            var s = d3.select(this);
+        s
+            .transition()
+            .duration(100)
+            .style("opacity", 0.5)
+        tooltip
+            .classed("hidden", false)
+            .html(d.day + "/" + d.month + "/" + d.year + " - <b>" + numberWithCommas(d.cons) + " MWh </b>")
+    }
+
 }
+
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
