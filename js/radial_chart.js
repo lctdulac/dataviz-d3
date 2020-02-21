@@ -91,7 +91,7 @@ var svg = d3
     var z = d3
       .scaleOrdinal()
       .domain(energyCat)
-       .range(["gold", "blue", "green", "yellow", "black", "grey", "darkgreen"]);
+       .range(["gold", "blue", "green", "slateblue", "black", "grey", "orange"]);
 
     var arc = d3
       .arc()
