@@ -28,7 +28,8 @@ ___
 * Keep in mind that the graphs are interactive. You should check the website out to play with the data.
 
 * <img src="/img/visu2.png">
-* <img src="/img/visu2.png">
+<br>
+* <img src="/img/visu3.png">
 
 ____
 
