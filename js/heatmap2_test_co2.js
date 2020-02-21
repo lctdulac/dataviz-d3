@@ -72,8 +72,6 @@ var output = document.getElementById("demo");
 
 switchPower();
 
-// TODO
-
 // buttons
 
 function switchPower() {
