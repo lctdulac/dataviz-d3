@@ -91,7 +91,7 @@ var svg = d3
     var z = d3
       .scaleOrdinal()
       .domain(energyCat)
-       .range(["gold", "blue", "green", "slateblue", "black", "grey", "orange"]);
+       .range(d3.schemeCategory10);
 
     var arc = d3
       .arc()
@@ -243,6 +243,20 @@ function mouseout(d) {
 
 function mouseover(d) {
      console.log(d)
+     let sum = 0;
+     let cat = ""
+     let value = 0
+     let total = d.data.Total
+     Object.keys(d.data).forEach((key) => {
+       if (key != 'Date' && key != 'Total'){
+        sum += d.data[key]
+        if (sum == d[1]){
+          cat = key
+          value = d.data[key]
+        }
+       }
+      
+     });
       var s = d3.select(this);
       s
           .transition()
@@ -250,6 +264,6 @@ function mouseover(d) {
           .style("opacity", 0.5)
       tooltip
           .classed("hidden", false)
-          .html("Fioul : " + d.data.Fioul + "<br>"
-          + "Charbon : " + d.data.Charbon + "<br>")
+          .html(cat +" : " + value + "<br>" +
+          Math.round(value/total*100) + "% du total produit")
 }
