@@ -192,8 +192,8 @@ var svg = d3
         g
           .append("text")
           .attr("y", d => -y(y_scale.ticks(5).pop()))
-          .attr("dy", "-1em")
-          .text("Energie produite en MW")
+          .attr("dy", "-1em")C
+          .text("Energy produced in MW during year 2014")
           .attr("font-size", "25px")
       )
       .call(g =>
