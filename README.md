@@ -2,15 +2,16 @@
 
 This project tries to answer to the following questions using data-visualization with <b>D3.js</b>:
 
-* When is the power consumed ?
+* Where does the electricty in France comes from ?
+* When is that power consumed ?
 * When does the energy production releases the most CO2 ?
-* Where does the electricty comes from ?
+
 
 ____
 
 ### Link to the website:
 
---> https://lctdulac.github.io/dataviz-d3/
+* https://lctdulac.github.io/dataviz-d3/
 ____
 
 ### The dataset
@@ -24,10 +25,10 @@ ___
 
 ### What does it look like ?
 
-Keep in mind that the graphs are interactive. You should check the website out to play with the data.
+* Keep in mind that the graphs are interactive. You should check the website out to play with the data.
 
-<img href="/img/visu2.png"> </img>
-<img href="/img/visu2.png"> </img>
+* <img src="/img/visu2.png">
+* <img src="/img/visu2.png">
 
 ____
 
