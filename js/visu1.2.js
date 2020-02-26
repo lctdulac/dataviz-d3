@@ -153,6 +153,7 @@ var z = d3.scaleOrdinal(d3.schemeCategory20)
   var tooltip = d3.select("body").append("div")
   .attr("class", "hidden tooltip")
   function mouseover(d) {
+     console.log(d)
      let sum = 0;
      let cat = ""
      let value = 0
