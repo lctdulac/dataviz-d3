@@ -83,7 +83,7 @@ d3.csv(data_nonuke, function(error, raw) {
 
     symbols_no_tot = symbols.slice(0, -1)
 
-    var layers = d3.stack().keys(symbols_no_tot)(data_stack.slice(0, -1));
+    var layers = d3.stack().keys(symbols_no_tot)(data_stack);
 
     var max = d3.max(layers[layers.length - 1], function(d) { return d[1]; });
 
