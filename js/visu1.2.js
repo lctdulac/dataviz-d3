@@ -137,7 +137,7 @@ d3.csv(data_nonuke, function(error, raw) {
         .enter().append("g")
         .attr("class", "legend")
         //.attr('transform', (d,i) => `translate(${-750 +i * 105},${height + 30})`);
-        .attr("transform", function(d, i) { return "translate(15," + i * 19 + ")"; })
+        .attr("transform", function(d, i) { return "translate(10," + i * 19 + ")"; })
     //.attr("transform", function(d, i) { return "translate("+(-1)*i + i * 19 + ", 250)"; })
 
     legend.append("rect")
