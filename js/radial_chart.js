@@ -14,7 +14,7 @@ $('input[type="radio"]').on("click change", function() {
       "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014.csv";
   } else {
     path =
-      "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014_noNuclear.csv";
+      "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014_noNuclear2.csv";
   }
   
   draw_graph(path);
