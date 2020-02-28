@@ -108,6 +108,8 @@ d3.csv(data, function(error, raw) {
         .on("mouseout", function(d) {
             d3.selectAll("rect")
                 .style("opacity", 1)
+            tooltip
+            .classed("hidden", true)
         })
 
     svg.append("g")
@@ -119,23 +121,23 @@ d3.csv(data, function(error, raw) {
         .attr("class", "y axis")
         .attr("transform", "translate(" + (0) + ", 0)")
         .call(d3.axisLeft().scale(y))
-    
+
     // text label for the x axis
-    svg.append("text")             
-      .attr("transform",
-            "translate(" + (width/2) + " ," + 
-                           (height + margin.top + 20) + ")")
-      .style("text-anchor", "middle")
-      .text("Time");
-    
+    svg.append("text")
+        .attr("transform",
+            "translate(" + (width / 2) + " ," +
+            (height + margin.top + 20) + ")")
+        .style("text-anchor", "middle")
+        .text("Time");
+
     // text label for the y axis
-  	svg.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left-5)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .style("text-anchor", "middle")
-      .text("Energy (MWh)"); 
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left - 5)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Energy (MWh)");
 
     var colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574"]
 
@@ -191,7 +193,7 @@ function mouseover(d) {
         .style("opacity", 0.5)
     tooltip
         .classed("hidden", false)
-        .html("<b>" + cat + " : " + Math.round(value) + "</b>" + "<br>" +
+        .html("<b>" + cat + " : " + Math.round(value) + "MWh</b>" + "<br>" +
             Math.round(value / total * 100) + "% of total")
 }
 
@@ -200,5 +202,5 @@ function mouseover(d) {
 function mousemove(d) {
     var mouse = d3.mouse(this);
     tooltip
-        .attr("style", "left:" + (630) + "px; top:" + (750) + "px")
+        .attr("style", "left:" + (630) + "px; top:" + (810) + "px")
 }

@@ -22,7 +22,7 @@ data_nonuke = 'https://raw.githubusercontent.com/Matperrin-ds/Dataviz/master/dat
 
 
 var tooltip = d3.select("body").append("div")
-    .attr("class", "hidden2 tooltip")
+    .attr("class", "hidden tooltip")
 
 
 d3.csv(data_nonuke, function(error, raw) {
@@ -110,6 +110,8 @@ d3.csv(data_nonuke, function(error, raw) {
         .on("mouseout", function(d) {
             d3.selectAll("rect")
                 .style("opacity", 1)
+            tooltip
+            .classed("hidden", true)
         })
 
     svg.append("g")
@@ -190,13 +192,13 @@ function mouseover(d) {
         .duration(1)
         .style("opacity", 0.5)
     tooltip
-        .classed("hidden2", false)
-        .html("<b>" + cat + " : " + Math.round(value) + "</b>" + "<br>" +
+        .classed("hidden", false)
+        .html("<b>" + cat + " : " + Math.round(value) + " MWh</b>" + "<br>" +
             Math.round(value / total * 100) + "% of total")
 }
 
 function mousemove(d) {
     var mouse = d3.mouse(this);
     tooltip
-        .attr("style", "left:" + (630) + "px; top:" + (750) + "px")
+        .attr("style", "left:" + (630) + "px; top:" + (810) + "px")
 }
