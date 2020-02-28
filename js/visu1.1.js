@@ -200,5 +200,5 @@ function mouseover(d) {
 function mousemove(d) {
     var mouse = d3.mouse(this);
     tooltip
-        .attr("style", "left:" + (620) + "px; top:" + (750) + "px")
+        .attr("style", "left:" + (630) + "px; top:" + (750) + "px")
 }
