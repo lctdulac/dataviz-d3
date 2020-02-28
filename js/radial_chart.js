@@ -91,7 +91,7 @@ var svg = d3
     var z = d3
       .scaleOrdinal()
       .domain(energyCat)
-       .range(d3.schemeCategory10);
+       .range(d3.schemeCategory20);
 
     var arc = d3
       .arc()
