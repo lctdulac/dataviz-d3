@@ -13,22 +13,14 @@ var x = d3.scaleBand()
 
 var z = d3.scaleOrdinal(d3.schemeCategory20)
 
-
-// Date format https://bl.ocks.org/zanarmstrong/ca0adb7e426c12c06a95
-//var parseTime  = d3.timeParse("%d/%m/%Y")
 var parseTime = d3.timeParse("%H:%M:%S")
 
-//var formatTime = d3.timeFormat("%d-%m")
-//var formatTime = d3.timeFormat("%d")
 var formatTime = d3.timeFormat("%H")
 
 
 
 
-data = 'https://raw.githubusercontent.com/Matperrin-ds/Dataviz/master/data_RTE_5.csv'
-
-data_nonuke = 'https://raw.githubusercontent.com/Matperrin-ds/Dataviz/master/data_RTE_5_nonuke.csv'
-
+data = 'https://raw.githubusercontent.com/Matperrin-ds/Dataviz/master/data_RTE_6.csv'
 
 
 d3.csv(data, function(error, raw) {
@@ -151,9 +143,7 @@ d3.csv(data, function(error, raw) {
         .data(layers)
         .enter().append("g")
         .attr("class", "legend")
-        //.attr('transform', (d,i) => `translate(${-750 +i * 105},${height + 30})`);
         .attr("transform", function(d, i) { return "translate(10," + i * 19 + ")"; })
-    //.attr("transform", function(d, i) { return "translate("+(-1)*i + i * 19 + ", 250)"; })
 
     legend.append("rect")
         .attr("x", width - 18)
