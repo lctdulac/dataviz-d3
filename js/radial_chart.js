@@ -60,7 +60,7 @@ var svg = d3
       console.log("Data loaded");
       data.forEach(function(d) {
         d.Date = parseTime(d.Date);
-        d.Total = +d.Total;
+        d.Total = +d.Total*0.25;
       });
     }
     var energyCat = data.columns.slice(1, 8);
@@ -68,7 +68,7 @@ var svg = d3
 
     data.forEach(function(d) {
       energyCat.forEach(c => {
-        d[c] = +d[c];
+        d[c] = +d[c]*0.25;
       });
     });
 
