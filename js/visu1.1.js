@@ -175,7 +175,7 @@ function mouseover(d) {
         if (key != 'Date' && key != 'Total' && key != 'year') {
             sum += d.data[key]
             if (sum == d[1]) {
-                if (cat != 'Solaire' && d.data[key] != 0) {
+                if (cat != 'Solar' && d.data[key] != 0) {
                     cat = key
                     value = d.data[key]
                 }
@@ -192,7 +192,7 @@ function mouseover(d) {
     tooltip
         .classed("hidden", false)
         .html("<b>" + cat + " : " + Math.round(value) + "</b>" + "<br>" +
-            Math.round(value / total * 100) + "% du total produit")
+            Math.round(value / total * 100) + "% of total")
 }
 
 
