@@ -193,7 +193,7 @@ var svg = d3
           .append("text")
           .attr("y", d => -y(y_scale.ticks(5).pop()))
           .attr("dy", "-1em")
-          .text("Energy produced in MW during year 2014")
+          .text("Year : 2014")
           .attr("font-size", "25px")
       )
       .call(g =>
@@ -229,7 +229,7 @@ var svg = d3
 function mousemove(d) {
   var mouse = d3.mouse(this);
   tooltip
-      .attr("style", "left:" + (mouse[0] + 500) + "px; top:" + (mouse[1] + 1000) + "px")
+      .attr("style", "left:" + (mouse[0] + 700) + "px; top:" + (mouse[1] + 780) + "px")
 }
 
 
@@ -264,6 +264,6 @@ function mouseover(d) {
           .style("opacity", 0.5)
       tooltip
           .classed("hidden", false)
-          .html(cat +" : " + value + "<br>" +
-          Math.round(value/total*100) + "% du total produit")
+          .html("<center> <b>" + cat +" : " + value + " GWh </b> <br>" +
+          Math.round(value/total*100) + "% du total produit </center>")
 }
