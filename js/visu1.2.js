@@ -135,7 +135,7 @@ d3.csv(data_nonuke, function(error, raw) {
     // text label for the y axis
   	svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left-5)
+      .attr("y", 0 - margin.left)
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
@@ -147,7 +147,7 @@ d3.csv(data_nonuke, function(error, raw) {
         .data(layers)
         .enter().append("g")
         .attr("class", "legend")
-        .attr("transform", function(d, i) { return "translate(10," + i * 19 + ")"; })
+        .attr("transform", function(d, i) { return "translate(5," + i * 19 + ")"; })
 
     legend.append("rect")
         .attr("x", width - 18)
