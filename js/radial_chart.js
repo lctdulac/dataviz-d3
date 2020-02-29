@@ -267,5 +267,5 @@ function mouseover(d) {
       tooltip
           .classed("hidden", false)
           .html("<center> <b>" + cat +" : " + value + " GWh </b> <br>" +
-          Math.round(value/total*100) + "% du total produit </center>")
+          Math.round(value/total*100) + "% of total </center>")
 }
