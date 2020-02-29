@@ -14,7 +14,7 @@ $('input[type="radio"]').on("click change", function() {
       "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014.csv";
   } else {
     path =
-      "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014_noNuclear.csv";
+      "https://raw.githubusercontent.com/lctdulac/dataviz-d3/master/data/data2014_noNuclear2.csv";
   }
   
   draw_graph(path);
@@ -60,7 +60,7 @@ var svg = d3
       console.log("Data loaded");
       data.forEach(function(d) {
         d.Date = parseTime(d.Date);
-        d.Total = +d.Total;
+        d.Total = +d.Total*0.5;
       });
     }
     var energyCat = data.columns.slice(1, 8);
@@ -68,7 +68,7 @@ var svg = d3
 
     data.forEach(function(d) {
       energyCat.forEach(c => {
-        d[c] = +d[c];
+        d[c] = +d[c]*0.5;
       });
     });
 
@@ -251,8 +251,10 @@ function mouseover(d) {
        if (key != 'Date' && key != 'Total'){
         sum += d.data[key]
         if (sum == d[1]){
-          cat = key
-          value = d.data[key]
+          if (cat != 'Nuclear' && d.data[key] != 0) {
+            cat = key
+          	value = d.data[key]            
+          }
         }
        }
       
@@ -265,5 +267,5 @@ function mouseover(d) {
       tooltip
           .classed("hidden", false)
           .html("<center> <b>" + cat +" : " + value + " GWh </b> <br>" +
-          Math.round(value/total*100) + "% du total produit </center>")
+          Math.round(value/total*100) + "% of total </center>")
 }
