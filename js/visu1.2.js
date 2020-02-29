@@ -1,5 +1,5 @@
 var margin = { top: 20, right: 100, bottom: 50, left: 60 },
-    width = 1000 - margin.left - margin.right,
+    width = 900 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
 var y = d3.scaleLinear()
