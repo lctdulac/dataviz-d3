@@ -251,7 +251,7 @@ function mouseover(d) {
        if (key != 'Date' && key != 'Total'){
         sum += d.data[key]
         if (sum == d[1]){
-          if (cat != 'Nucléaire' && d.data[key] != 0) {
+          if (cat != 'Nuclear' && d.data[key] != 0) {
             cat = key
           	value = d.data[key]            
           }
