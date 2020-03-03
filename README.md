@@ -1,4 +1,4 @@
-# Project dataviz-d3
+# Electricity in France - dataviz-d3
 
 This project tries to answer to the following questions using data-visualization with <b>D3.js</b>:
 
